@@ -2,8 +2,8 @@ const LambdaTestPage = require("../pages/lambda.js");
 const {describe, it, before, after} = require("mocha");
 const {expect} = require("chai");
 
-describe("Lambda Functionality Tests", function () {
-    this.timeout(15000);  // Set the timeout for all tests in this block
+describe("Lambda", function () {
+    this.timeout(15000);
     let testPage;
 
     before(async () => {
