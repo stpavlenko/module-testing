@@ -2,7 +2,7 @@ const LambdaTestPage = require("../pages/lambda.js");
 const {describe, it, before, after} = require("mocha");
 const {expect} = require("chai");
 
-describe("Lambda Functionality Tests", function () {
+describe("Lambda", function () {
     this.timeout(15000);
     let testPage;
 
