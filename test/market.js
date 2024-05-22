@@ -1,7 +1,8 @@
 const YandexMarketPage = require("../pages/market");
 const mocha = require("mocha");
-const {By} = require("selenium-webdriver");
+const {By, logging} = require("selenium-webdriver");
 const {assert} = require("chai")
+const {allure} = require("allure-mocha/runtime");
 
 const withErrorHandling = (fn, handler) => {
     return async () => {
@@ -34,79 +35,84 @@ mocha.describe("YandexMarket", function () {
         }
     });
 
-
     it(
-        "Opens xbox page",
-        withErrorHandling(
-            async () => {
-                await yandexMarketPage.clickCatalogButton();
-                await yandexMarketPage.hoverCategory();
-                await yandexMarketPage.clickXbox();
-            },
-            async () => await yandexMarketPage.saveScreenshot("error.png"),
-        ),
-    );
+        "Favorites", async () => {
+            allure.step('Open xbox page', withErrorHandling(
+                async () => {
+                    allure.step('Opens xbox page', async () => {
+                        await yandexMarketPage.clickCatalogButton();
+                        await yandexMarketPage.hoverCategory();
+                        await yandexMarketPage.clickXbox();
+                    })
+                },
+                async () => await yandexMarketPage.saveScreenshot("error.png"),
+            ))
 
-    it(
-        "Log titles and prices from xbox page",
-        withErrorHandling(
-            async () => {
-                firstElem = await yandexMarketPage.logElements();
-            },
-            async () => await yandexMarketPage.saveScreenshot("error.png"),
-        ),
-    );
+            allure.step(
+                "Log titles and prices from xbox page",
+                withErrorHandling(
+                    async () => {
+                        firstElem = await yandexMarketPage.logElements();
+                    },
+                    async () => await yandexMarketPage.saveScreenshot("error.png"),
+                ),
+            );
 
-    it(
-        "Add to favorites",
-        withErrorHandling(
-            async () => {
-                await yandexMarketPage.addFavorites();
-            },
-            async () => await yandexMarketPage.saveScreenshot("error.png"),
-        ),
-    );
+            allure.step(
+                "Add to favorites",
+                withErrorHandling(
+                    async () => {
+                        await yandexMarketPage.addFavorites();
+                    },
+                    async () => await yandexMarketPage.saveScreenshot("error.png"),
+                ),
+            );
 
-    it(
-        "Open favorites",
-        withErrorHandling(
-            async () => {
-                await yandexMarketPage.openFavorites();
-            },
-            async () => await yandexMarketPage.saveScreenshot("error.png"),
-        ),
-    );
+            allure.step(
+                "Open favorites",
+                withErrorHandling(
+                    async () => {
+                        await yandexMarketPage.openFavorites();
+                    },
+                    async () => await yandexMarketPage.saveScreenshot("error.png"),
+                ),
+            );
 
-    it(
-        "Remove favorites",
-        withErrorHandling(
-            async () => {
-                await yandexMarketPage.click(By.xpath(yandexMarketPage.xpathRemoveFavorites));
-            },
-            async () => await yandexMarketPage.saveScreenshot("error.png"),
-        ),
-    );
+            allure.step(
+                "Remove favorites",
+                withErrorHandling(
+                    async () => {
+                        await yandexMarketPage.click(By.xpath(yandexMarketPage.xpathRemoveFavorites));
+                    },
+                    async () => await yandexMarketPage.saveScreenshot("error.png"),
+                ),
+            );
 
-    it(
-        "Check favorite",
-        withErrorHandling(
-            async () => {
-                const [title, price] = await yandexMarketPage.getFavorites();
-                assert.equal(title, firstElem[0]);
-                assert.equal(title, firstElem[1]);
-            },
-            async () => await yandexMarketPage.saveScreenshot("error.png"),
-        ),
-    );
+            allure.step(
+                "Check favorite",
+                withErrorHandling(
+                    async () => {
+                        console.log()
+                        // const [title, price] = await yandexMarketPage.getFavorites();
+                        const favorites = await yandexMarketPage.getFavorites();
+                        console.log(favorites)
+                        assert.equal(favorites[0], firstElem[0]);
+                        assert.equal(favorites[0], firstElem[1]);
+                    },
+                    async () => await yandexMarketPage.saveScreenshot("error.png"),
+                ),
+            );
 
-    it(
-        "Refresh page",
-        withErrorHandling(
-            async () => {
-                assert.equal(await yandexMarketPage.getSaveText(), "Сохраняйте здесь товары");
-                await yandexMarketPage.refreshPage();
-            },
-            async () => await yandexMarketPage.saveScreenshot("error.png"),
-        ),
+            allure.step(
+                "Refresh page",
+                withErrorHandling(
+                    async () => {
+                        assert.equal(await yandexMarketPage.getSaveText(), "Сохраняйте здесь товары");
+                        await yandexMarketPage.refreshPage();
+                    },
+                    async () => await yandexMarketPage.saveScreenshot("error.png"),
+                ),
+            );
+        }
     );
 });
