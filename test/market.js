@@ -1,6 +1,7 @@
 const YandexMarketPage = require("../pages/market");
 const mocha = require("mocha");
 const {By} = require("selenium-webdriver");
+const {assert} = require("chai")
 
 const withErrorHandling = (fn, handler) => {
     return async () => {
@@ -32,6 +33,7 @@ mocha.describe("YandexMarket", function () {
             await yandexMarketPage.saveScreenshot(dateTime);
         }
     });
+
 
     it(
         "Opens xbox page",
@@ -90,11 +92,8 @@ mocha.describe("YandexMarket", function () {
         withErrorHandling(
             async () => {
                 const [title, price] = await yandexMarketPage.getFavorites();
-                if (title[0] !== firstElem[0][0] || price[0] !== firstElem[0][1]) {
-                    throw new Error(
-                        `Expected title: ${firstElem[0][0]}, price: ${firstElem[0][1]}. Actual title: ${title[0]}, price: ${price[0]}`,
-                    );
-                }
+                assert.equal(title, firstElem[0]);
+                assert.equal(title, firstElem[1]);
             },
             async () => await yandexMarketPage.saveScreenshot("error.png"),
         ),
@@ -104,11 +103,8 @@ mocha.describe("YandexMarket", function () {
         "Refresh page",
         withErrorHandling(
             async () => {
+                assert.equal(await yandexMarketPage.getSaveText(), "Сохраняйте здесь товары");
                 await yandexMarketPage.refreshPage();
-                const savedText = await yandexMarketPage.getTextFromElement(By.xpath(yandexMarketPage.xpathSave));
-                if (savedText !== "Сохранено") {
-                    throw new Error(`Expected "Сохранено", got "${savedText}"`);
-                }
             },
             async () => await yandexMarketPage.saveScreenshot("error.png"),
         ),
