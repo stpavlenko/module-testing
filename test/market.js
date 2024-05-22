@@ -37,7 +37,7 @@ mocha.describe("YandexMarket", function () {
 
     it(
         "Favorites", async () => {
-            allure.step('Open xbox page', withErrorHandling(
+            await allure.step('Open xbox page', withErrorHandling(
                 async () => {
                     allure.step('Opens xbox page', async () => {
                         await yandexMarketPage.clickCatalogButton();
@@ -48,7 +48,7 @@ mocha.describe("YandexMarket", function () {
                 async () => await yandexMarketPage.saveScreenshot("error.png"),
             ))
 
-            allure.step(
+            await allure.step(
                 "Log titles and prices from xbox page",
                 withErrorHandling(
                     async () => {
@@ -58,7 +58,7 @@ mocha.describe("YandexMarket", function () {
                 ),
             );
 
-            allure.step(
+            await allure.step(
                 "Add to favorites",
                 withErrorHandling(
                     async () => {
@@ -68,7 +68,7 @@ mocha.describe("YandexMarket", function () {
                 ),
             );
 
-            allure.step(
+            await allure.step(
                 "Open favorites",
                 withErrorHandling(
                     async () => {
@@ -78,7 +78,7 @@ mocha.describe("YandexMarket", function () {
                 ),
             );
 
-            allure.step(
+            await allure.step(
                 "Remove favorites",
                 withErrorHandling(
                     async () => {
@@ -88,7 +88,7 @@ mocha.describe("YandexMarket", function () {
                 ),
             );
 
-            allure.step(
+            await allure.step(
                 "Check favorite",
                 withErrorHandling(
                     async () => {
@@ -103,7 +103,7 @@ mocha.describe("YandexMarket", function () {
                 ),
             );
 
-            allure.step(
+            await allure.step(
                 "Refresh page",
                 withErrorHandling(
                     async () => {
